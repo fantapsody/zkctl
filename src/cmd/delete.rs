@@ -2,6 +2,7 @@ use clap::Clap;
 use crate::cmd::runner::CMDRunner;
 use zookeeper::ZooKeeperExt;
 use crate::context::ZKContext;
+use std::error::Error;
 
 #[derive(Clap)]
 pub struct Delete {
@@ -12,22 +13,13 @@ pub struct Delete {
 }
 
 impl CMDRunner for Delete {
-    fn run(&self, zk_opts: &mut ZKContext) -> i32 {
-        let zk = zk_opts.zk();
-        let rslt = if self.recursive {
-            zk.delete_recursive(self.path.as_str())
+    fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
+        let zk = zk_opts.zk()?;
+        if self.recursive {
+            zk.delete_recursive(self.path.as_str())?
         } else {
-            zk.delete(self.path.as_str(), None)
+            zk.delete(self.path.as_str(), None)?
         };
-        match rslt {
-            Ok(r) => {
-                debug!("{:?}", r);
-                0
-            }
-            Err(e) => {
-                error!("failed to del [{}]: {}", self.path, e);
-                1
-            }
-        }
+        Ok(())
     }
 }

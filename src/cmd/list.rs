@@ -1,6 +1,7 @@
 use clap::Clap;
 use crate::cmd::runner::{CMDRunner};
 use crate::context::ZKContext;
+use std::error::Error;
 
 #[derive(Clap)]
 pub struct List {
@@ -8,21 +9,13 @@ pub struct List {
 }
 
 impl CMDRunner for List {
-    fn run(&self, zk_opts: &mut ZKContext) -> i32 {
-        let zk = zk_opts.zk();
-        let rslt = zk.get_children(self.path.as_str(), false);
-        match rslt {
-            Ok(r) => {
-                debug!("{:?}", r);
-                r.iter().for_each(|v| {
-                    println!("{}", v);
-                });
-                0
-            }
-            Err(e) => {
-                error!("failed to create [{}]: {}", self.path, e);
-                1
-            }
-        }
+    fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
+        let zk = zk_opts.zk()?;
+        let r = zk.get_children(self.path.as_str(), false)?;
+        debug!("{:?}", r);
+        r.iter().for_each(|v| {
+            println!("{}", v);
+        });
+        Ok(())
     }
 }

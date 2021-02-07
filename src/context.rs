@@ -1,6 +1,7 @@
 use zookeeper::ZooKeeper;
 use std::time::Duration;
 use std::rc::Rc;
+use std::error::Error;
 
 pub struct ZKContext {
     servers: String,
@@ -21,12 +22,12 @@ impl ZKContext {
         return ZKContext {
             servers,
             client: None,
-        }
+        };
     }
 
-    pub fn zk(&mut self) -> Rc<ZooKeeper> {
-        let client = Rc::new(ZooKeeper::connect(self.servers.as_str(), Duration::from_secs(10), ZKWatcher).unwrap());
+    pub fn zk(&mut self) -> Result<Rc<ZooKeeper>, Box<dyn Error>> {
+        let client = Rc::new(ZooKeeper::connect(self.servers.as_str(), Duration::from_secs(10), ZKWatcher)?);
         self.client = Some(Rc::clone(&client));
-        client
+        Ok(client)
     }
 }
