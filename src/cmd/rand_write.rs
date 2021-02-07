@@ -27,7 +27,8 @@ impl CMDRunner for RandWrite {
         while self.num < 0 || i < self.num {
             let value = uuid::Uuid::new_v4().to_string();
             let path = self.path.clone().add("/").add(value.as_str());
-            let r = zk.create(path.as_str(), vec![], Acl::open_unsafe().clone(), CreateMode::Persistent);
+            let data = value.into_bytes();
+            let r = zk.create(path.as_str(), data, Acl::open_unsafe().clone(), CreateMode::Persistent);
             match r {
                 Ok(rs) => debug!("creation of {} succeeded: {}", path, rs),
                 Err(e) => error!("failed to create {}: {}", path, e)
