@@ -14,7 +14,7 @@ pub struct Delete {
 
 impl CMDRunner for Delete {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
         if self.recursive {
             zk.delete_recursive(self.path.as_str())?
         } else {

@@ -12,7 +12,7 @@ pub struct Create {
 
 impl CMDRunner for Create {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
         let data = match &self.data {
             Some(d) => d.clone().into_bytes(),
             None => vec![],

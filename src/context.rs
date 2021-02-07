@@ -3,8 +3,8 @@ use std::time::Duration;
 use std::rc::Rc;
 use std::error::Error;
 
-pub struct ZKContext {
-    servers: String,
+pub struct ZKContext<'a> {
+    servers: &'a str,
 
     client: Option<Rc<ZooKeeper>>,
 }
@@ -17,17 +17,18 @@ impl zookeeper::Watcher for ZKWatcher {
     }
 }
 
-impl ZKContext {
-    pub fn create(servers: String) -> ZKContext {
+impl<'a> ZKContext<'a> {
+    pub fn create(servers: &str) -> ZKContext {
         return ZKContext {
             servers,
             client: None,
         };
     }
 
-    pub fn zk(&mut self) -> Result<Rc<ZooKeeper>, Box<dyn Error>> {
-        let client = Rc::new(ZooKeeper::connect(self.servers.as_str(), Duration::from_secs(10), ZKWatcher)?);
-        self.client = Some(Rc::clone(&client));
-        Ok(client)
+    pub fn client(&mut self) -> Result<Rc<ZooKeeper>, Box<dyn Error>> {
+        if self.client.is_none() {
+            self.client = Some(Rc::new(ZooKeeper::connect(self.servers, Duration::from_secs(10), ZKWatcher)?))
+        }
+        Ok(self.client.as_ref().unwrap().clone())
     }
 }

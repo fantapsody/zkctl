@@ -20,7 +20,7 @@ pub struct ZKOpts {
 
 impl ZKOpts {
     pub fn create_context(&self) -> ZKContext {
-        return ZKContext::create(self.servers.clone())
+        return ZKContext::create(self.servers.as_str())
     }
 }
 

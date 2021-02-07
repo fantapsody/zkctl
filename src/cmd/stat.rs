@@ -16,7 +16,7 @@ impl Stat {
 
 impl CMDRunner for Stat {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
         let r = zk.get_data(self.path.as_str(), false)?;
         debug!("{:?}", r);
         println!("cZxid: {:x}", r.1.czxid);

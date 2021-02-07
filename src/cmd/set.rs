@@ -14,7 +14,7 @@ pub struct Set {
 
 impl CMDRunner for Set {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
         let r = zk.set_data(self.path.as_str(), self.data.clone().into_bytes(), self.version)?;
         debug!("{:?}", r);
         Ok(())

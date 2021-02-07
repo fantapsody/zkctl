@@ -10,7 +10,7 @@ pub struct List {
 
 impl CMDRunner for List {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
         let r = zk.get_children(self.path.as_str(), false)?;
         debug!("{:?}", r);
         r.iter().for_each(|v| {

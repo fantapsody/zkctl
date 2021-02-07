@@ -20,7 +20,7 @@ pub struct RandWrite {
 
 impl CMDRunner for RandWrite {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
-        let zk = zk_opts.zk()?;
+        let zk = zk_opts.client()?;
 
         let mut i: i64 = 0;
         let mut last_tick = Instant::now();
