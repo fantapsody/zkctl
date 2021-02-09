@@ -4,13 +4,13 @@ use crate::context::ZKContext;
 use std::error::Error;
 
 #[derive(Clap)]
-pub struct Create {
+pub struct CreateOpts {
     pub path: String,
 
     pub data: Option<String>,
 }
 
-impl CMDRunner for Create {
+impl CMDRunner for CreateOpts {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
         let zk = zk_opts.client()?;
         let data = match &self.data {

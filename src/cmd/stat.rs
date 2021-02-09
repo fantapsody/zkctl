@@ -4,17 +4,17 @@ use crate::context::ZKContext;
 use std::error::Error;
 
 #[derive(Clap)]
-pub struct Stat {
+pub struct StatOpts {
     pub path: String,
 }
 
-impl Stat {
+impl StatOpts {
     fn fmt_time(ts: i64) -> String {
         chrono::NaiveDateTime::from_timestamp(ts / 1000, 0).to_string()
     }
 }
 
-impl CMDRunner for Stat {
+impl CMDRunner for StatOpts {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
         let zk = zk_opts.client()?;
         let r = zk.get_data(self.path.as_str(), false)?;

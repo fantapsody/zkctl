@@ -4,11 +4,11 @@ use crate::context::ZKContext;
 use std::error::Error;
 
 #[derive(Clap)]
-pub struct List {
+pub struct ListOpts {
     pub path: String,
 }
 
-impl CMDRunner for List {
+impl CMDRunner for ListOpts {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
         let zk = zk_opts.client()?;
         let r = zk.get_children(self.path.as_str(), false)?;

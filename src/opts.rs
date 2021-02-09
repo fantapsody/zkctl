@@ -1,11 +1,11 @@
 use clap::Clap;
-use crate::cmd::get::Get;
-use crate::cmd::create::Create;
-use crate::cmd::list::List;
-use crate::cmd::set::Set;
-use crate::cmd::delete::Delete;
-use crate::cmd::stat::Stat;
-use crate::cmd::rand_write::RandWrite;
+use crate::cmd::get::GetOpts;
+use crate::cmd::create::CreateOpts;
+use crate::cmd::list::ListOpts;
+use crate::cmd::set::SetOpts;
+use crate::cmd::delete::DeleteOpts;
+use crate::cmd::stat::StatOpts;
+use crate::cmd::rand_write::RandWriteOpts;
 use crate::context::ZKContext;
 
 #[derive(Clap)]
@@ -26,14 +26,14 @@ impl ZKOpts {
 
 #[derive(Clap)]
 pub enum Command {
-    Get(Get),
-    Stat(Stat),
-    Ls(List),
-    Create(Create),
-    Set(Set),
-    Del(Delete),
+    Get(GetOpts),
+    Stat(StatOpts),
+    Ls(ListOpts),
+    Create(CreateOpts),
+    Set(SetOpts),
+    Del(DeleteOpts),
 
-    RandWrite(RandWrite),
+    RandWrite(RandWriteOpts),
 }
 
 pub fn parse_opts() -> ZKOpts {

@@ -8,7 +8,7 @@ use crate::context::ZKContext;
 use std::error::Error;
 
 #[derive(Clap)]
-pub struct RandWrite {
+pub struct RandWriteOpts {
     pub path: String,
 
     #[clap(long, default_value = "-1")]
@@ -18,7 +18,7 @@ pub struct RandWrite {
     pub sleep_ms: u64,
 }
 
-impl CMDRunner for RandWrite {
+impl CMDRunner for RandWriteOpts {
     fn run(&self, zk_opts: &mut ZKContext) -> Result<(), Box<dyn Error>> {
         let zk = zk_opts.client()?;
 
