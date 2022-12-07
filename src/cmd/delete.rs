@@ -1,10 +1,10 @@
-use clap::Clap;
+use clap::Parser;
 use crate::cmd::runner::CMDRunner;
 use zookeeper::ZooKeeperExt;
 use crate::context::ZKContext;
 use std::error::Error;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct DeleteOpts {
     pub path: String,
 

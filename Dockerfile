@@ -1,4 +1,4 @@
-FROM rust:1.49.0 AS build
+FROM rust:1.60.0 AS build
 WORKDIR /usr/src
 
 RUN rustup target add x86_64-unknown-linux-musl
@@ -11,7 +11,7 @@ RUN cargo build --release
 COPY src ./src
 RUN cargo install --target x86_64-unknown-linux-musl --path .
 
-FROM scratch
+FROM alpine/k8s:1.20.7
 COPY --from=build /usr/local/cargo/bin/zkctl .
 USER 1000
 CMD ["./zkctl"]

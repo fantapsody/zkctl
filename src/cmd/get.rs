@@ -1,9 +1,9 @@
-use clap::Clap;
+use clap::Parser;
 use crate::cmd::runner::{CMDRunner};
 use crate::context::ZKContext;
 use std::error::Error;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct GetOpts {
     pub path: String,
 }

@@ -1,4 +1,4 @@
-use clap::Clap;
+use clap::Parser;
 use crate::cmd::runner::CMDRunner;
 use std::time::{Instant, Duration};
 use std::thread::sleep;
@@ -6,8 +6,9 @@ use std::ops::Add;
 use zookeeper::{Acl, CreateMode};
 use crate::context::ZKContext;
 use std::error::Error;
+use rand::RngCore;
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub struct RandWriteOpts {
     pub path: String,
 
@@ -16,6 +17,9 @@ pub struct RandWriteOpts {
 
     #[clap(long, default_value = "5")]
     pub sleep_ms: u64,
+
+    #[clap(long, default_value = "1000")]
+    pub node_size: u64,
 }
 
 impl CMDRunner for RandWriteOpts {
@@ -27,7 +31,11 @@ impl CMDRunner for RandWriteOpts {
         while self.num < 0 || i < self.num {
             let value = uuid::Uuid::new_v4().to_string();
             let path = self.path.clone().add("/").add(value.as_str());
-            let data = value.into_bytes();
+
+            let mut data: Vec<u8> = Vec::with_capacity(self.node_size as usize);
+            for _j in 0 .. self.node_size {
+                data.push((('a' as u32) + (rand::thread_rng().next_u32()) % 26) as u8)
+            }
             let r = zk.create(path.as_str(), data, Acl::open_unsafe().clone(), CreateMode::Persistent);
             match r {
                 Ok(rs) => debug!("creation of {} succeeded: {}", path, rs),

@@ -1,4 +1,4 @@
-use clap::Clap;
+use clap::Parser;
 use crate::cmd::get::GetOpts;
 use crate::cmd::create::CreateOpts;
 use crate::cmd::list::ListOpts;
@@ -8,13 +8,13 @@ use crate::cmd::stat::StatOpts;
 use crate::cmd::rand_write::RandWriteOpts;
 use crate::context::ZKContext;
 
-#[derive(Clap)]
-#[clap(version = "1.0", author = "Yang Yang <yyang@streamnative.io>")]
+#[derive(Parser)]
+#[command(version = "1.0", author = "Yang Yang <yyang@streamnative.io>")]
 pub struct ZKOpts {
-    #[clap(short = 'z', long, default_value = "localhost:2181")]
+    #[arg(short = 'z', long, default_value = "localhost:2181")]
     pub servers: String,
 
-    #[clap(subcommand)]
+    #[command(subcommand)]
     pub cmd: Command,
 }
 
@@ -24,7 +24,7 @@ impl ZKOpts {
     }
 }
 
-#[derive(Clap)]
+#[derive(Parser)]
 pub enum Command {
     Get(GetOpts),
     Stat(StatOpts),
