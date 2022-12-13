@@ -8,3 +8,4 @@ pub mod delete;
 pub mod set;
 
 pub mod rand_write;
+pub mod dump;

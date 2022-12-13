@@ -4,6 +4,7 @@ use crate::cmd::create::CreateOpts;
 use crate::cmd::list::ListOpts;
 use crate::cmd::set::SetOpts;
 use crate::cmd::delete::DeleteOpts;
+use crate::cmd::dump::DumpOpts;
 use crate::cmd::stat::StatOpts;
 use crate::cmd::rand_write::RandWriteOpts;
 use crate::context::ZKContext;
@@ -34,6 +35,7 @@ pub enum Command {
     Del(DeleteOpts),
 
     RandWrite(RandWriteOpts),
+    Dump(DumpOpts),
 }
 
 pub fn parse_opts() -> ZKOpts {

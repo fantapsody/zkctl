@@ -3,6 +3,7 @@ extern crate env_logger;
 
 #[macro_use]
 extern crate log;
+extern crate core;
 
 use crate::opts::parse_opts;
 use crate::cmd::runner::CMDRunner;
@@ -25,6 +26,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         opts::Command::Set(cmd) => cmd.run(&mut ctx)?,
         opts::Command::Del(cmd) => cmd.run(&mut ctx)?,
         opts::Command::RandWrite(cmd) => cmd.run(&mut ctx)?,
+        opts::Command::Dump(cmd) => cmd.run(&mut ctx)?,
     };
 
     Ok(())

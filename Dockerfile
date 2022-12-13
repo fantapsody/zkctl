@@ -13,5 +13,5 @@ RUN cargo install --target x86_64-unknown-linux-musl --path .
 
 FROM alpine/k8s:1.20.7
 COPY --from=build /usr/local/cargo/bin/zkctl .
-USER 1000
+USER 0
 CMD ["./zkctl"]
